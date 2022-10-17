@@ -37,8 +37,7 @@ function draw() {
       //i need to set my condition to avoid the overlap of the shapes
 
       //when the random value is less than 0.1, i draw an arc
-      if(random()<0.1)
-      {
+      if(random()<0.1) {
         fill('#ff4851');
         arc(x, y, tile  * 2, tile  * 2, 180, 270);
       } 
