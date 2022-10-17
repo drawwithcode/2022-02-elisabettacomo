@@ -23,6 +23,7 @@ function setup() {
 function draw() {
 
   background('#fff9e9');
+  noStroke();
 
   //I declare that my tile has a dimention based on the screen size. Thanks to this, my tile can adapt to all the devices
   let tile = windowWidth/ 20;
