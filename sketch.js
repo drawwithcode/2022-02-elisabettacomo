@@ -92,14 +92,14 @@ function draw() {
     if(textInstruction){
 
       //a background for the text
-      fill('#4058bc');
-      rect(width/2, height/2, tile * 12, tile * 2);
+      fill('#fff9e9');
+      rect(width/2, height/2, width, tile * 1.75);
 
       //the text and its properties
       textFont("RegloBold");
-      fill('#fff9e9');
-      textSize(tile);
-      text('CLICK TO RANDOMIZE!', width/2, height/2);
+      fill('#132d4d');
+      textSize(tile/1.75);
+      text('CLICK TO RANDOMIZE, PRESS S TO SAVE', width/2, height/2 + 5);
       textAlign(CENTER, CENTER);
     }
     
@@ -121,8 +121,9 @@ function windowResized (){
   resizeCanvas(windowWidth, windowHeight);
 }
 
-// function keyTyped() {
-//   if (key === 's') {
-//     save(c,'pattern', 'jpg');
-//   }
-// }
+function keyTyped(){
+	//save the pattern when "s" is typed
+	if (key === "s" || key === "S") {
+		save("pattern.png");
+	}
+}
