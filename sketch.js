@@ -1,14 +1,15 @@
-//posX and posY are used to set the starting point of the canvas
-let posX = 0;
-let posY = 0;
+//color HEX array 
+let colors = ['#ff4851', '#132d4d', '#4058bc', '#ffa300'];
 
-//tile is the unit of the pattern
+//declare object
 let tile;
 
 //I declare 'textInstruction' as a true statement
 let textInstruction = true;
 
 function setup() {
+
+  tile = new Tile();
 
   //canvas has the window size so that the sketch can be responsive
   createCanvas(windowWidth, windowHeight);
@@ -25,84 +26,108 @@ function draw() {
   background('#fff9e9');
   noStroke();
 
-  //I declare that my tile has a dimention based on the screen size. Thanks to this, my tile can adapt to all the devices
-  let tile = windowWidth/ 20;
+  //to display the objects defined in the class [line 38]
+  tile.display();
 
-  // i use the for cycle to create a pattern of element. 
-  //the starting point is the posX = 0, the lenght is the same as the screen, the increment is equal to a tile
-  for(let x = posX; x < width; x+=tile) {
-    //i do the same for the height of the screen
-    for(let y = posX; y < height; y+=tile) {
+  
+}
 
-      //now, i want to create a pattern that uses 3 different shapes: arcs, circles and squares.
-      //i need to set my condition to avoid the overlap of the shapes
+//creating the class
+class Tile {
+  //defining objects characteristics: position and diameter
+  constructor() {
+    this.x = 0;
+    this.y = 0;
+    this.diameter = windowWidth/ 20;
+  }
+  //display object
+  display() {
 
-      //when the random value is less than 0.1, i draw an arc
-      if(random()<0.1) {
-        fill('#ff4851');
-        arc(x, y, tile  * 2, tile  * 2, 180, 270);
-      } 
+    // i use the for cycle to create a pattern of element. 
+    //the starting point is the this.x = 0, the lenght is the same as the screen, the increment is equal to the tile diameter
+    for(let x = this.x; x < width; x+=this.diameter) {
+      //i do the same for the height of the screen
+      for(let y = this.y; y < height; y+=this.diameter) {
+  
+        //now, i want to create a pattern that uses 3 different shapes: arcs, circles and squares.
+        //i need to set my condition to avoid the overlap of the shapes
+  
+        //when the random value is less than 0.1, i draw an arc
+        if(random()<0.1) {
+          //to randomnly fill the shapes:
+          let col = random(colors);
+          fill(col);
+  
+          arc(x, y, this.diameter  * 2, this.diameter  * 2, 180, 270);
+        } 
+        
+        //when the random value is between 0.1 and 0.3, i draw an ellipse
+        else if(random()>0.1 && random()<0.3)
+        {
+          let col = random(colors);
+          fill(col);
+          ellipse(x, y, this.diameter);
+        }
+  
+        //...
+        else if(random()>0.3 && random()<0.4)
+        {
+          let col = random(colors);
+          fill(col);
+          arc(x - this.diameter, y, this.diameter  * 2, this.diameter  * 2, 270, 360);
+        }
+  
+        //...
+        else if(random()>0.4 && random()<0.5)
+        {
+          let col = random(colors);
+          fill(col);
+          square(x - this.diameter/2, y - this.diameter/2, this.diameter);
+        }
+  
+        //...
+        else if(random()>0.5 && random()<0.6)
+        {
+          let col = random(colors);
+          fill(col);
+          square(x + this.diameter/2, y + this.diameter/2, this.diameter);
+        }
+  
+        //...
+        else if(random()>0.6 && random()<0.8)
+        {
+          let col = random(colors);
+          fill(col);
+          arc(x, y - this.diameter, this.diameter  * 2, this.diameter  * 2, 90, 180);
+        }
+  
+        //if the random value is > 0.8, i draw an arc
+        else {
+          let col = random(colors);
+          fill(col);
+          arc(x - this.diameter, y - this.diameter, this.diameter  * 2, this.diameter  * 2, 0, 90);
+        }
+      }
+  
+      //i need to stop the animation
+      noLoop();
+  
+      //i set the variable textInstruction
+      if(textInstruction){
+  
+        //a background for the text
+        fill('#fff9e9');
+        rect(width/2, height/2, width, windowWidth/20 * 1.75);
+  
+        //the text and its properties
+        textFont("RegloBold");
+        fill('#132d4d');
+        textSize(windowWidth/20/1.75);
+        text('CLICK TO RANDOMIZE, PRESS S TO SAVE', width/2, height/2 + 5);
+        textAlign(CENTER, CENTER);
+      }
       
-      //when the random value is between 0.1 and 0.3, i draw an ellipse
-      else if(random()>0.1 && random()<0.3)
-      {
-        fill('#132d4d');
-        ellipse(x, y, tile);
-      }
-
-      //...
-      else if(random()>0.3 && random()<0.4)
-      {
-        fill('#ff4851');
-        arc(x - tile, y, tile  * 2, tile  * 2, 270, 360);
-      }
-
-      //...
-      else if(random()>0.4 && random()<0.5)
-      {
-        fill('#4058bc');
-        square(x - tile/2, y - tile/2, tile);
-      }
-
-      //...
-      else if(random()>0.5 && random()<0.6)
-      {
-        fill('#ffa300');
-        square(x + tile/2, y + tile/2, tile);
-      }
-
-      //...
-      else if(random()>0.6 && random()<0.8)
-      {
-        fill('#132d4d');
-        arc(x, y - tile, tile  * 2, tile  * 2, 90, 180);
-      }
-
-      //if the random value is > 0.8, i draw an arc
-      else {
-        fill('#ffa300');
-        arc(x - tile, y - tile, tile  * 2, tile  * 2, 0, 90);
-      }
     }
-
-    //i need to stop the animation
-    noLoop();
-
-    //i set the variable textInstruction
-    if(textInstruction){
-
-      //a background for the text
-      fill('#fff9e9');
-      rect(width/2, height/2, width, tile * 1.75);
-
-      //the text and its properties
-      textFont("RegloBold");
-      fill('#132d4d');
-      textSize(tile/1.75);
-      text('CLICK TO RANDOMIZE, PRESS S TO SAVE', width/2, height/2 + 5);
-      textAlign(CENTER, CENTER);
-    }
-    
   }
 }
 
@@ -122,8 +147,8 @@ function windowResized (){
 }
 
 function keyTyped(){
-	//save the pattern when "s" is typed
-	if (key === "s" || key === "S") {
-		save("pattern.png");
-	}
+  //save the pattern when "s" is typed
+  if (key === "s" || key === "S") {
+    save("pattern.png");
+  }
 }
